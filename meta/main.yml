@@ -1,0 +1,37 @@
+galaxy_info:
+  author: pddg
+  role_name: ghq
+  description: Install ghq (https://github.com/motemen/ghq)
+
+  license: Apache-2.0
+
+  min_ansible_version: 2.4
+
+  platforms:
+  - name: EL
+    versions:
+    - 7
+    - 8
+  - name: Fedora
+    versions:
+    - 31
+    - 30
+  - name: Debian
+    versions:
+    - buster
+    - stretch
+  - name: Ubuntu
+    versions:
+    - 16.04
+    - 18.04
+  - name: MacOSX
+    versions:
+    - 10.14
+    - 10.15
+
+  galaxy_tags:
+  - system
+  - development
+
+dependencies: []
+  

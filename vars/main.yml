@@ -1,0 +1,2 @@
+---
+ghq_package: 'ghq_{{ ansible_system | lower }}_{{ architecture }}'
