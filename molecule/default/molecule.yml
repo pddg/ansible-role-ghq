@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: el7
+    image: centos:7
+  - name: el8
+    image: centos:8
+  - name: debian-buster
+    image: debian:buster-slim
+  - name: debian-stretch
+    image: debian:stretch-slim
+  - name: ubuntu-focal
+    image: ubuntu:20.04
+  - name: ubuntu-bionic
+    image: ubuntu:18.04
+  - name: ubuntu-xenial
+    image: ubuntu:16.04
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

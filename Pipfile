@@ -8,6 +8,11 @@ verify_ssl = true
 [packages]
 ansible = "*"
 molecule = "*"
+docker = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+lint = "molecule lint"
+test = "molecule test --parallel"
