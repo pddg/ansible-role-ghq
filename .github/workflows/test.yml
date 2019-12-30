@@ -85,6 +85,9 @@ jobs:
           version: 2018.11.26
       - name: Install dependencies
         run: pipenv install --dev
-      - name: Run lint
-        run: pipenv run ansible-playbook tests/test.yml
-
+      - name: Run provisioning on localhost
+        run: pipenv run ansible-playbook tests/test.yml -i tests/inventory
+        env:
+          ANSIBLE_ACTION_WARNINGS: False
+          ANSIBLE_LOCALHOST_WARNING: False
+          ANSIBLE_SYSTEM_WARNINGS: False
