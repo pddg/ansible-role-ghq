@@ -1,5 +1,7 @@
 # pddg.ghq
 
+[![Actions Status](https://github.com/pddg/ansible-role-ghq/workflows/Test/badge.svg)](https://github.com/pddg/ansible-role-ghq/actions)
+
 The role to install ghq ( https://github.com/motemen/ghq )
 
 ## Requirements
