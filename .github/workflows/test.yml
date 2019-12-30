@@ -1,0 +1,90 @@
+name: Test
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Restore cache if available
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Restore pipenv cache if available
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pipenv
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Install pipenv
+        uses: dschep/install-pipenv-action@v1
+        with:
+          version: 2018.11.26
+      - name: Install dependencies
+        run: pipenv install --dev
+      - name: Run lint
+        run: pipenv run lint
+  test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-18.04
+          - ubuntu-16.04
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Restore cache if available
+        if: startsWith(runner.os, 'macOS')
+        uses: actions/cache@v1
+        with:
+          path: ~/Library/Caches/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Restore pipenv cache if available
+        if: startsWith(runner.os, 'macOS')
+        uses: actions/cache@v1
+        with:
+          path: ~/Library/Caches/pipenv
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Restore cache if available
+        if: startsWith(runner.os, 'Linux')
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Restore pipenv cache if available
+        if: startsWith(runner.os, 'Linux')
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pipenv
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Install pipenv
+        uses: dschep/install-pipenv-action@v1
+        with:
+          version: 2018.11.26
+      - name: Install dependencies
+        run: pipenv install --dev
+      - name: Run lint
+        run: pipenv run ansible-playbook tests/test.yml
+
