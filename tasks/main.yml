@@ -1,4 +1,10 @@
 ---
+- name: The architecture is supported
+  assert:
+    that:
+      - "ansible_architecture == 'x86_64'"
+    msg: "THe binary distribution of ghq support only x86_64 architecture."
+
 - name: Install dependencies
   include_tasks: "{{ ansible_os_family }}.yml"
 

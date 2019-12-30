@@ -1,2 +1,3 @@
 ---
-ghq_package: 'ghq_{{ ansible_system | lower }}_{{ architecture }}'
+ghq_bin_architecture: amd64
+ghq_package: 'ghq_{{ ansible_system | lower }}_{{ ghq_bin_architecture }}'
