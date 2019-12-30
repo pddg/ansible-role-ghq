@@ -30,7 +30,7 @@ jobs:
         with:
           version: 2018.11.26
       - name: Install dependencies
-        run: pipenv install --dev
+        run: pipenv install --dev --deploy
       - name: Run lint
         run: pipenv run lint
   test:
@@ -84,7 +84,7 @@ jobs:
         with:
           version: 2018.11.26
       - name: Install dependencies
-        run: pipenv install --dev
+        run: pipenv install --dev --deploy
       - name: Run provisioning on localhost
         run: pipenv run ansible-playbook tests/test.yml -i tests/inventory
         env:
