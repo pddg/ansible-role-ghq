@@ -2,6 +2,10 @@ name: Test
 
 on: [push]
 
+env:
+  python_version: 3.7
+  pipenv_version: 2018.11.26
+
 jobs:
   lint:
     runs-on: ubuntu-18.04
@@ -10,7 +14,7 @@ jobs:
       - name: Use Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: ${{ env.python_version }}
       - name: Restore cache if available
         uses: actions/cache@v1
         with:
@@ -28,27 +32,28 @@ jobs:
       - name: Install pipenv
         uses: dschep/install-pipenv-action@v1
         with:
-          version: 2018.11.26
+          version: ${{ env.pipenv_version }}
       - name: Install dependencies
         run: pipenv install --dev --deploy
       - name: Run lint
-        run: pipenv run lint
-  test:
+        run: |
+          pipenv run molecule lint -s default
+          pipenv run molecule lint -s macos
+          pipenv run molecule lint -s macos_brew
+  test_macos:
     strategy:
       matrix:
-        os:
-          - ubuntu-18.04
-          - ubuntu-16.04
-          - macos-latest
-    runs-on: ${{ matrix.os }}
+        scenario:
+          - macos
+          - macos_brew
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
       - name: Use Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: ${{ env.python_version }}
       - name: Restore cache if available
-        if: startsWith(runner.os, 'macOS')
         uses: actions/cache@v1
         with:
           path: ~/Library/Caches/pip
@@ -56,15 +61,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Restore pipenv cache if available
-        if: startsWith(runner.os, 'macOS')
         uses: actions/cache@v1
         with:
           path: ~/Library/Caches/pipenv
           key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pipenv-
+      - name: Install pipenv
+        uses: dschep/install-pipenv-action@v1
+        with:
+          version: ${{ env.pipenv_version }}
+      - name: Install dependencies
+        run: pipenv install --dev --deploy
+      - name: Run provisioning on localhost
+        run: pipenv run molecule test -s ${{ matrix.scenario }}
+  test_linux:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-18.04
+          - ubuntu-16.04
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ env.python_version }}
       - name: Restore cache if available
-        if: startsWith(runner.os, 'Linux')
         uses: actions/cache@v1
         with:
           path: ~/.cache/pip
@@ -72,7 +96,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Restore pipenv cache if available
-        if: startsWith(runner.os, 'Linux')
         uses: actions/cache@v1
         with:
           path: ~/.cache/pipenv
@@ -82,7 +105,7 @@ jobs:
       - name: Install pipenv
         uses: dschep/install-pipenv-action@v1
         with:
-          version: 2018.11.26
+          version: ${{ env.pipenv_version }}
       - name: Install dependencies
         run: pipenv install --dev --deploy
       - name: Run provisioning on localhost
