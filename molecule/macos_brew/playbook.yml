@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: localhost
+  connection: local
+  roles:
+    - role: ../../../.
+      vars:
+        ghq_install_by_brew: yes
