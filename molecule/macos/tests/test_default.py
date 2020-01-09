@@ -37,7 +37,6 @@ def test_ghq_is_installed(host):
     f = host.file('/usr/local/bin/ghq')
 
     assert f.exists
-    assert f.user == 'root'
     assert f.mode == 0o755
 
 
