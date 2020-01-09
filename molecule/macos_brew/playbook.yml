@@ -2,7 +2,8 @@
 - name: Converge
   hosts: localhost
   connection: local
+  pre_tasks:
+    - name: Include test specific variables
+      include_vars: "vars.yml"
   roles:
     - role: ../../../.
-      vars:
-        ghq_install_by_brew: yes
