@@ -1,0 +1,12 @@
+---
+- name: ghq_version is ignored
+  debug:
+    msg: "Given ghq_version ({{ ghq_version }}) is ignored"
+
+- name: ghq is installed by Homebrew
+  homebrew:
+    name:
+      - ghq
+    state: "{{ ghq_upgrade_by_brew | ternary('latest', 'present') }}"
+  register: ghq_installed_by_brew
+  become: no

@@ -1,27 +1,6 @@
 ---
-- name: The architecture is supported
-  assert:
-    that:
-      - "ansible_architecture == 'x86_64'"
-    msg: "THe binary distribution of ghq support only x86_64 architecture."
+- include_tasks: by_brew.yml
+  when: ansible_os_family == "Darwin" and ghq_install_by_brew
 
-- name: Install dependencies
-  include_tasks: "{{ ansible_os_family }}.yml"
-
-- name: Download binary
-  unarchive:
-    src: 'https://{{ ghq_repository }}/releases/download/{{ ghq_version }}/{{ ghq_package }}.{{ ghq_archive_ext }}'
-    dest: '/tmp/'
-    remote_src: yes
-
-- name: Install ghq
-  copy:
-    src: "/tmp/{{ ghq_package }}/ghq"
-    dest: "{{ ghq_install_dir }}"
-    remote_src: yes
-
-- name: Ensure that ghq is executable
-  file:
-    path: "{{ ghq_install_dir }}/ghq"
-    mode: a+x
-    state: file
+- include_tasks: by_gh_releases.yml
+  when: ansible_os_family != "Darwin" or not ghq_install_by_brew

@@ -7,7 +7,7 @@ verify_ssl = true
 
 [packages]
 ansible = "*"
-molecule = "*"
+molecule = {extras = ["docker"],version = "*"}
 docker = "*"
 
 [requires]
