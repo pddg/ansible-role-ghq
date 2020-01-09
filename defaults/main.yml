@@ -2,4 +2,10 @@
 ghq_repository: github.com/motemen/ghq
 ghq_archive_ext: zip
 ghq_install_dir: /usr/local/bin
-ghq_version: v1.0.1
+ghq_version: 1.0.1
+
+# Install ghq by Homebrew on macOS
+ghq_install_by_brew: no
+
+# If true, this role try to upgrade ghq when the newer version is available
+ghq_upgrade_by_brew: yes
