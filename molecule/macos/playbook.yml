@@ -2,6 +2,7 @@
 - name: Converge
   hosts: all
   connection: local
+  become: yes
   pre_tasks:
     - name: Include test specific variables
       include_vars: "vars.yml"

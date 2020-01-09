@@ -41,11 +41,11 @@ def test_ghq_is_installed(host):
     assert f.mode == 0o755
 
 
-def test_ghq_executable(host):
+def test_ghq_executable(host, ansible_vars):
     ghq_ver = host.run("ghq --version")
 
     assert ghq_ver.succeeded
     # ghq version 1.0.1 (rev:91944fb)
     actual_ver = ghq_ver.stdout.strip().split(" ")[2]
-    expected_ver = host.ansible.get_variables().get("ghq_version")
+    expected_ver = ansible_vars.get("ghq_version")
     assert actual_ver == str(expected_ver)
