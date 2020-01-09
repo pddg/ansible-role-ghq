@@ -34,7 +34,7 @@ jobs:
         with:
           version: ${{ env.pipenv_version }}
       - name: Install dependencies
-        run: pipenv install --dev --deploy
+        run: pipenv sync --dev
       - name: Run lint
         run: |
           pipenv run molecule lint -s default
@@ -72,7 +72,7 @@ jobs:
         with:
           version: ${{ env.pipenv_version }}
       - name: Install dependencies
-        run: pipenv install --dev --deploy
+        run: pipenv sync --dev
       - name: Run provisioning on localhost
         run: pipenv run molecule test -s ${{ matrix.scenario }}
   test_linux:
@@ -107,7 +107,7 @@ jobs:
         with:
           version: ${{ env.pipenv_version }}
       - name: Install dependencies
-        run: pipenv install --dev --deploy
+        run: pipenv sync --dev
       - name: Run provisioning on localhost
         run: pipenv run ansible-playbook tests/test.yml -i tests/inventory
         env:
