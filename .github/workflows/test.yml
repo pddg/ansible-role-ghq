@@ -114,4 +114,4 @@ jobs:
       - name: Install dependencies
         run: pipenv sync --dev
       - name: Run provisioning on localhost
-        run: pipenv run molecule test -s ${{ matrix.scenario }}
+        run: pipenv run molecule test -s ${{ matrix.scenario }} --parallel
