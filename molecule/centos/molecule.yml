@@ -6,17 +6,19 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: ubuntu-focal
-    image: ubuntu:20.04
-  - name: ubuntu-bionic
-    image: ubuntu:18.04
-  - name: ubuntu-xenial
-    image: ubuntu:16.04
+  - name: el7
+    image: centos:7
+  - name: el8
+    image: centos:8
 provisioner:
   name: ansible
+  playbooks:
+    converge: ../default/playbook.yml
   lint:
     name: ansible-lint
+
 verifier:
   name: testinfra
+  directory: ../default/tests/
   lint:
     name: flake8
