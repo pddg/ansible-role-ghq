@@ -29,7 +29,7 @@
         dest: "{{ ghq_install_dir }}"
         remote_src: yes
   when:
-    - ghq_version not in ghq_actual_version.stdout
+    - ghq_version not in ghq_actual_version.stdout|default("")
 
 - name: Ensure that ghq is executable
   file:
