@@ -6,7 +6,7 @@ The role to install ghq ( https://github.com/motemen/ghq )
 
 ## Requirements
 
-If you want to use this role on macOS, this will require that Homebrew is installed.
+If you want to use this role on macOS and `ghq_install_by_brew: yes`, this will require that Homebrew is installed.
 
 ## Role Variables
 
@@ -25,8 +25,7 @@ No other dependencies
       become: yes
       vars:
         ghq_install_dir: /usr/local/bin
-        ghq_version: v0.17.4
-    
+        ghq_version: 1.0.1
 ```
 
 ## License
