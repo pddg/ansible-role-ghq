@@ -37,9 +37,12 @@ jobs:
         run: pipenv sync --dev
       - name: Run lint
         run: |
-          pipenv run molecule lint -s default
           pipenv run molecule lint -s macos
           pipenv run molecule lint -s macos_brew
+          pipenv run molecule lint -s ubuntu
+          pipenv run molecule lint -s debian
+          pipenv run molecule lint -s centos
+          pipenv run molecule lint -s fedora
   test_macos:
     strategy:
       matrix:
@@ -78,10 +81,12 @@ jobs:
   test_linux:
     strategy:
       matrix:
-        os:
-          - ubuntu-18.04
-          - ubuntu-16.04
-    runs-on: ${{ matrix.os }}
+        scenario:
+          - ubuntu
+          - debian
+          - fedora
+          - centos
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
       - name: Use Python
@@ -109,8 +114,4 @@ jobs:
       - name: Install dependencies
         run: pipenv sync --dev
       - name: Run provisioning on localhost
-        run: pipenv run ansible-playbook tests/test.yml -i tests/inventory
-        env:
-          ANSIBLE_ACTION_WARNINGS: False
-          ANSIBLE_LOCALHOST_WARNING: False
-          ANSIBLE_SYSTEM_WARNINGS: False
+        run: pipenv run molecule test -s ${{ matrix.scenario }}
