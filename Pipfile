@@ -12,6 +12,7 @@ docker = "*"
 flake8 = "*"
 ansible-lint = "*"
 yamllint = "*"
+testinfra = "*"
 
 [requires]
 python_version = "3.7"
