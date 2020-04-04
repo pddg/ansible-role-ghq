@@ -7,8 +7,11 @@ driver:
     managed: False
     ansible_connection_options:
       ansible_connection: local
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
   - name: localhost
 provisioner:
